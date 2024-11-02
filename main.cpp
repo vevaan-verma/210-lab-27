@@ -24,6 +24,7 @@ int main() {
 	map<string, tuple<int, string, string>> villagerColors;
 
 	int userChoice = getMenuChoice();
+	cout << endl; // output blank line for formatting
 
 	while (userChoice != 6) { // loop while the user does not choose to exit
 
@@ -56,8 +57,11 @@ int main() {
 
 		}
 
+		cout << endl; // output blank line for formatting
 		outputVillagers(villagerColors); // output the villagers in the map
+		cout << endl; // output blank line for formatting
 		userChoice = getMenuChoice(); // get the user's choice
+		cout << endl; // output blank line for formatting
 
 	}
 
@@ -106,6 +110,7 @@ void addVillager(map<string, tuple<int, string, string>>& villagerColors) {
 	getline(cin, catchphrase); // get the catchphrase of the villager
 
 	villagerColors.insert({ name, { friendship, species, catchphrase } }); // insert the villager into the map
+	cout << name << " added." << endl; // output that the villager was added
 
 }
 
@@ -169,6 +174,41 @@ void decreaseFriendship(map<string, tuple<int, string, string>>& villagerColors)
 		cout << "Villager not found." << endl; // output that the villager was not found
 
 	}
+}
+
+// searchVillager() searches for a villager in the map
+// arguments: map<string, tuple<int, string, string>& villagerColors - the map of villagers
+// returns: void
+void searchVillager(map<string, tuple<int, string, string>>& villagerColors) {
+
+	string name; // variable to store the name of the villager
+
+	cout << "Villager Name: ";
+	cin >> name; // get the name of the villager
+
+	if (villagerColors.find(name) != villagerColors.end()) { // if the villager is in the map
+
+		cout << "Friendship Level: " << get<0>(villagerColors.at(name)) << endl; // output the friendship level of the villager
+		cout << "Species: " << get<1>(villagerColors.at(name)) << endl; // output the species of the villager
+		cout << "Catchphrase: " << get<2>(villagerColors.at(name)) << endl; // output the catchphrase of the villager
+
+	} else { // if the villager is not in the map
+
+		cout << "Villager not found." << endl; // output that the villager was not found
+
+	}
+}
+
+// outputVillagers() outputs the villagers in the map
+// arguments: map<string, tuple<int, string, string>& villagerColors - the map of villagers
+// returns: void
+void outputVillagers(map<string, tuple<int, string, string>>& villagerColors) {
+
+	cout << "Villager Details:" << endl;
+
+	for (map<string, tuple<int, string, string>>::iterator it = villagerColors.begin(); it != villagerColors.end(); it++) // iterate through the map
+		cout << it->first << " [" << get<0>(it->second) << ", " << get<1>(it->second) << ", " << get<2>(it->second) << "]" << endl; // output the villager details
+
 }
 
 // getValidatedChoice() gets a validated integer choice from the user (between min and max inclusive)
