@@ -2,75 +2,66 @@
 using namespace std;
 #include <iostream>
 #include <map>
-#include <vector>
+#include <tuple>
+#include <string>
 
+/* FUNCTION PROTOTYPES */
+int getMenuChoice();
+int getValidatedChoice(int min, int max);
+
+// main() is the entry point of the program and drives the program
+// arguments: none
+// returns: int - the exit code of the program
 int main() {
 
-	// declarations
-	map<string, vector<string>> villagerColors;
+	// parameters: friendship level (0 - 10), species, catchphrase
+	map<string, tuple<int, string, string>> villagerColors;
 
-	// insert elements into the map
-	// note how the right-hand side of the assignment are the vector elements
-	villagerColors["Audie"] = { "Orange", "Yellow", "Red" };
-	villagerColors["Raymond"] = { "Black", "Gray", "White" };
-	villagerColors.insert({ "Marshal", {"Blue", "White", "Black"} });
+	int userChoice = getMenuChoice();
+	cout << endl; // output blank line for formatting
 
-	// access the map using a range-based for loop
-	cout << "Villagers and their favorite colors (range-based for loop):" << endl;
+	while (userChoice != 6) { // loop while the user does not choose to exit
 
-	for (auto pair : villagerColors) {
-
-		cout << pair.first << ": ";
-
-		for (auto color : pair.second)
-			cout << color << " ";
-
-		cout << endl;
+		userChoice = getMenuChoice(); // get the user's choice
 
 	}
-
-	// access the map using iterators
-	cout << "\nVillagers and their favorite colors (iterators):" << endl;
-
-	for (map<string, vector<string>>::iterator it = villagerColors.begin(); it != villagerColors.end(); ++it) {
-
-		cout << it->first << ": ";
-
-		for (auto color : it->second)
-			cout << color << " ";
-
-		cout << endl;
-
-	}
-
-	// delete an element
-	villagerColors.erase("Raymond");
-
-	// search for an element using .find() to avoid errors
-	string searchKey = "Audie";
-	auto it = villagerColors.find(searchKey);
-
-	if (it != villagerColors.end()) {  // the iterator points to beyond the end of the map
-
-		// if searchKey is not found
-		cout << "\nFound " << searchKey << "'s favorite colors: ";
-
-		for (auto color : it->second)  // range loop to traverse the value/vector
-			cout << color << " ";
-
-		cout << endl;
-
-	} else {
-
-		cout << endl << searchKey << " not found." << endl;
-
-	}
-
-	// report size, clear, report size again to confirm map operations
-	cout << "\nSize before clear: " << villagerColors.size() << endl;
-	villagerColors.clear();
-	cout << "Size after clear: " << villagerColors.size() << endl;
 
 	return 0;
+
+}
+
+// getMenuChoice() displays the menu and gets the user's choice
+// arguments: none
+// returns: int - the user's choice
+int getMenuChoice() {
+
+	cout << "1. Add Villager" << endl;
+	cout << "2. Delete Villager" << endl;
+	cout << "3. Increase Friendship" << endl;
+	cout << "4. Decrease Friendship" << endl;
+	cout << "5. Search for Villager" << endl;
+	cout << "6. Exit" << endl;
+
+	cout << "Enter your choice: ";
+	return getValidatedChoice(1, 6);
+
+}
+
+// getValidatedChoice() gets a validated integer choice from the user (between min and max inclusive)
+// arguments: int min - the minimum value, int max - the maximum value
+// returns: int - the validated integer choice
+int getValidatedChoice(int min, int max) {
+
+	int inputInt; // variable to store the input (of type int)
+
+	while (!(cin >> inputInt) || inputInt < min || inputInt > max) { // while the input is not an integer or is not between the min and max
+
+		cin.clear(); // clear the input stream
+		cin.ignore(INT_MAX, '\n'); // ignore the invalid input
+		cout << "Invalid input. Please enter a valid integer: "; // prompt the user to enter an integer
+
+	}
+
+	return inputInt;
 
 }
