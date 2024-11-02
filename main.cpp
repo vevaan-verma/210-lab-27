@@ -102,10 +102,73 @@ void addVillager(map<string, tuple<int, string, string>>& villagerColors) {
 	cin >> species; // get the species of the villager
 
 	cout << "Catchphrase: ";
+	cin.ignore(); // ignore the newline character
 	getline(cin, catchphrase); // get the catchphrase of the villager
 
 	villagerColors.insert({ name, { friendship, species, catchphrase } }); // insert the villager into the map
 
+}
+
+// deleteVillager() deletes a villager from the map
+// arguments: map<string, tuple<int, string, string>& villagerColors - the map of villagers
+// returns: void
+void deleteVillager(map<string, tuple<int, string, string>>& villagerColors) {
+
+	string name; // variable to store the name of the villager
+
+	cout << "Villager Name: ";
+	cin >> name; // get the name of the villager
+
+	villagerColors.erase(name); // erase the villager from the map
+
+}
+
+// increaseFriendship() increases the friendship level of a villager
+// arguments: map<string, tuple<int, string, string>& villagerColors - the map of villagers
+// returns: void
+void increaseFriendship(map<string, tuple<int, string, string>>& villagerColors) {
+
+	string name; // variable to store the name of the villager
+
+	cout << "Villager Name: ";
+	cin >> name; // get the name of the villager
+
+	if (villagerColors.find(name) != villagerColors.end()) { // if the villager is in the map
+
+		if (get<0>(villagerColors.at(name)) < 10) // if the friendship level is less than 10
+			get<0>(villagerColors.at(name)) = get<0>(villagerColors.at(name)) + 1; // increase the friendship level of the villager
+		else // if the friendship level is already 10
+			cout << "Friendship level is already at maximum." << endl; // output that the friendship level is already at the maximum
+
+	} else { // if the villager is not in the map
+
+		cout << "Villager not found." << endl; // output that the villager was not found
+
+	}
+}
+
+// decreaseFriendship() decreases the friendship level of a villager
+// arguments: map<string, tuple<int, string, string>& villagerColors - the map of villagers
+// returns: void
+void decreaseFriendship(map<string, tuple<int, string, string>>& villagerColors) {
+
+	string name; // variable to store the name of the villager
+
+	cout << "Villager Name: ";
+	cin >> name; // get the name of the villager
+
+	if (villagerColors.find(name) != villagerColors.end()) { // if the villager is in the map
+
+		if (get<0>(villagerColors.at(name)) > 0) // if the friendship level is greater than 0
+			get<0>(villagerColors.at(name))--; // decrease the friendship level of the villager
+		else // if the friendship level is already 0
+			cout << "Friendship level is already at minimum." << endl; // output that the friendship level is already at the minimum
+
+	} else { // if the villager is not in the map
+
+		cout << "Villager not found." << endl; // output that the villager was not found
+
+	}
 }
 
 // getValidatedChoice() gets a validated integer choice from the user (between min and max inclusive)
@@ -118,6 +181,7 @@ int getValidatedChoice(int min, int max) {
 	while (!(cin >> inputInt) || inputInt < min || inputInt > max) { // while the input is not an integer or is not between the min and max
 
 		cin.clear(); // clear the input stream
+		cin.ignore(INT_MAX, '\n'); // ignore the invalid input
 		cout << "Invalid input. Please enter a valid integer: "; // prompt the user to enter an integer
 
 	}
